@@ -1,5 +1,5 @@
 import { api } from "./axiosInstance";
-import { IMedicine } from "@/types/medicine.type";
+import { IMedicine, IMedicineCategory } from "@/types/medicine.type";
 
 interface ApiResponse<T> {
   success: boolean;
@@ -22,11 +22,17 @@ export const medicineApi = {
   },
 
   getAllMedicines: async (
-    params?: string,
+    query: Record<string, any> = {},
   ): Promise<ApiResponse<IMedicine[]>> => {
-    const response = await api.get<ApiResponse<IMedicine[]>>(
-      `/medicine${params ? `?${params}` : ""}`,
-    );
+    const response = await api.get<ApiResponse<IMedicine[]>>("/medicine", {
+      params: query,
+    });
+    return response.data;
+  },
+
+  getCategories: async (): Promise<ApiResponse<IMedicineCategory[]>> => {
+    const response =
+      await api.get<ApiResponse<IMedicineCategory[]>>("/category");
     return response.data;
   },
 };

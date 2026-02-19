@@ -10,9 +10,17 @@ export const usePopularMedicines = () => {
 };
 
 //============Get All Medicines=================
-export const useAllMedicines = (params?: string) => {
+export const useAllMedicines = (query: Record<string, any> = {}) => {
   return useQuery({
-    queryKey: ["medicines", params],
-    queryFn: () => medicineApi.getAllMedicines(params),
+    queryKey: ["medicines", query],
+    queryFn: () => medicineApi.getAllMedicines(query),
+  });
+};
+
+//============Get Categories=================
+export const useCategories = () => {
+  return useQuery({
+    queryKey: ["categories"],
+    queryFn: () => medicineApi.getCategories(),
   });
 };

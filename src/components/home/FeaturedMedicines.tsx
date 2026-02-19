@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import MedicineCard from "./MedicineCard";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowRight } from "lucide-react";
