@@ -22,7 +22,7 @@ export const medicineApi = {
   },
 
   getAllMedicines: async (
-    query: Record<string, any> = {},
+    query: Record<string, string | number | boolean | undefined | null> = {},
   ): Promise<ApiResponse<IMedicine[]>> => {
     const response = await api.get<ApiResponse<IMedicine[]>>("/medicine", {
       params: query,

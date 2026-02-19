@@ -10,7 +10,9 @@ export const usePopularMedicines = () => {
 };
 
 //============Get All Medicines=================
-export const useAllMedicines = (query: Record<string, any> = {}) => {
+export const useAllMedicines = (
+  query: Record<string, string | number | boolean | undefined | null> = {},
+) => {
   return useQuery({
     queryKey: ["medicines", query],
     queryFn: () => medicineApi.getAllMedicines(query),

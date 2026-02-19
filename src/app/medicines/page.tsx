@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useAllMedicines } from "@/hooks/useMedicine";
 import MedicineCard from "@/components/home/MedicineCard";
@@ -16,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IMedicine } from "@/types/medicine.type";
 
-const MedicinesPage = () => {
+const MedicinesPageContent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -216,11 +217,10 @@ const MedicinesPage = () => {
                           onClick={() =>
                             updateQuery({ page: (i + 1).toString() })
                           }
-                          className={`w-12 h-12 rounded-2xl text-sm font-black transition-all duration-300 ${
-                            page === i + 1
+                          className={`w-12 h-12 rounded-2xl text-sm font-black transition-all duration-300 ${page === i + 1
                               ? "bg-zinc-900 dark:bg-emerald-600 text-white shadow-xl scale-110"
                               : "bg-white dark:bg-zinc-900 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 border border-zinc-100 dark:border-zinc-800"
-                          }`}
+                            }`}
                         >
                           {i + 1}
                         </button>
@@ -245,6 +245,25 @@ const MedicinesPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const MedicinesPage = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-600 rounded-full animate-spin" />
+            <p className="text-zinc-400 font-black uppercase tracking-widest text-[10px]">
+              Initializing Catalog...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <MedicinesPageContent />
+    </Suspense>
   );
 };
 
