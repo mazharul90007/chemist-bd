@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from "./axiosInstance";
 import { IMedicine, IMedicineCategory } from "@/types/medicine.type";
+import { ICreateOrderPayload, IOrder } from "@/types/order.type";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -12,6 +13,14 @@ export interface ApiResponse<T> {
   };
   data: T;
 }
+
+//================User Api===================
+export const userApi = {
+  getProfileData: async (): Promise<ApiResponse<any>> => {
+    const response = await api.get<ApiResponse<any>>("/auth/me");
+    return response.data;
+  },
+};
 
 //=================Medicine Api================
 export const medicineApi = {
@@ -72,6 +81,26 @@ export const cartApi = {
       `/cart/update-quantity/${cartItemId}`,
       { type },
     );
+    return response.data;
+  },
+};
+
+//=================Order Api================
+export const orderApi = {
+  createOrder: async (
+    data: ICreateOrderPayload,
+  ): Promise<ApiResponse<IOrder>> => {
+    const response = await api.post<ApiResponse<IOrder>>("/order/create", data);
+    return response.data;
+  },
+
+  getMyOrders: async (): Promise<ApiResponse<IOrder[]>> => {
+    const response = await api.get<ApiResponse<IOrder[]>>("/order");
+    return response.data;
+  },
+
+  getOrderById: async (id: string): Promise<ApiResponse<IOrder>> => {
+    const response = await api.get<ApiResponse<IOrder>>(`/order/${id}`);
     return response.data;
   },
 };

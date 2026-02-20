@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -19,18 +20,47 @@ import {
   useUpdateCartQuantity,
 } from "@/hooks/useCart";
 import { ICartItem } from "@/types/cart.type";
+import CheckoutModal from "@/components/cart/CheckoutModal";
 
 const CartPage = () => {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = React.useState(false);
   const { data, isLoading, error } = useMyCart();
   const { mutate: removeFromCart, isPending: isRemoving } = useRemoveFromCart();
   const { mutate: updateQuantity, isPending: isUpdating } =
     useUpdateCartQuantity();
 
   const cart = data?.data;
-  const cartItems = cart?.cartItems || [];
-  console.log(cartItems);
+  const cartItems = (cart?.cartItems || []) as ICartItem[];
 
-  const totalPrice = cartItems.reduce(
+  // Initialize selected items when cart data is fetched
+  React.useEffect(() => {
+    if (cartItems.length > 0 && selectedItems.length === 0) {
+      setSelectedItems(cartItems.map((item) => item.id));
+    }
+  }, [cartItems]);
+
+  const toggleItemSelection = (itemId: string) => {
+    setSelectedItems((prev) =>
+      prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId],
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedItems.length === cartItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cartItems.map((item) => item.id));
+    }
+  };
+
+  const selectedCartItems = cartItems.filter((item) =>
+    selectedItems.includes(item.id),
+  );
+
+  const totalPrice = selectedCartItems.reduce(
     (acc: number, item: ICartItem) =>
       acc + (item.medicine.price || 0) * item.quantity,
     0,
@@ -97,6 +127,19 @@ const CartPage = () => {
                 in your cart
               </p>
             </div>
+            {cartItems.length > 0 && (
+              <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 px-6 py-3 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                <input
+                  type="checkbox"
+                  checked={selectedItems.length === cartItems.length}
+                  onChange={toggleSelectAll}
+                  className="w-5 h-5 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                />
+                <span className="text-sm font-bold text-zinc-600 dark:text-zinc-400">
+                  Select All ({selectedItems.length}/{cartItems.length})
+                </span>
+              </div>
+            )}
           </div>
 
           {cartItems.length === 0 ? (
@@ -131,8 +174,21 @@ const CartPage = () => {
                 {cartItems.map((item: ICartItem) => (
                   <div
                     key={item.id}
-                    className="group bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 rounded-2xl p-3 md:p-4 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] dark:hover:shadow-none transition-all flex flex-col sm:flex-row items-start sm:items-center gap-6"
+                    className={`group bg-white dark:bg-zinc-900 border ${selectedItems.includes(item.id)
+                      ? "border-emerald-500/30"
+                      : "border-zinc-100 dark:border-zinc-800/50"
+                      } rounded-2xl p-3 md:p-4 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] dark:hover:shadow-none transition-all flex flex-col sm:flex-row items-start sm:items-center gap-6`}
                   >
+                    {/* Select Checkbox */}
+                    <div className="flex items-center justify-center sm:pl-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.includes(item.id)}
+                        onChange={() => toggleItemSelection(item.id)}
+                        className="w-5 h-5 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                      />
+                    </div>
+
                     {/* Item Image */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-zinc-50 dark:bg-zinc-800 shrink-0">
                       <Link href={`/medicine/${item.medicineId}`}>
@@ -231,7 +287,7 @@ const CartPage = () => {
                 ))}
               </div>
 
-              {/* Order Summary */}
+              {/* ==============Order Summary============ */}
               <div className="lg:col-span-4">
                 <div className="sticky top-24 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 md:p-10 shadow-sm overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-[5rem]" />
@@ -265,7 +321,11 @@ const CartPage = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg shadow-xl shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer">
+                  <Button
+                    disabled={selectedItems.length === 0}
+                    onClick={() => setIsCheckoutModalOpen(true)}
+                    className="w-full h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg shadow-xl shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
                     Proceed to Checkout
                     <ArrowRight
                       size={20}
@@ -282,6 +342,13 @@ const CartPage = () => {
           )}
         </div>
       </div>
+
+      <CheckoutModal
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setIsCheckoutModalOpen(false)}
+        selectedItems={selectedCartItems}
+        totalPrice={totalPrice}
+      />
     </main>
   );
 };
