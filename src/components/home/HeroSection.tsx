@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Zap, Clock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -31,23 +32,27 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl px-8 h-14 text-base font-semibold shadow-lg shadow-emerald-500/20 transition-all group cursor-pointer"
-              >
-                Shop Medicines
-                <ArrowRight
-                  className="ml-2 group-hover:translate-x-1 transition-transform"
-                  size={18}
-                />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto rounded-2xl px-8 h-14 text-base border-zinc-200 dark:border-zinc-800 font-semibold transition-all cursor-pointer"
-              >
-                Get Health Advice
-              </Button>
+              <Link href={"/medicines"}>
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl px-8 h-14 text-base font-semibold shadow-lg shadow-emerald-500/20 transition-all group cursor-pointer"
+                >
+                  Shop Medicines
+                  <ArrowRight
+                    className="ml-2 group-hover:translate-x-1 transition-transform"
+                    size={18}
+                  />
+                </Button>
+              </Link>
+              <Link href={"/blog"}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto rounded-2xl px-8 h-14 text-base border-zinc-200 dark:border-zinc-800 font-semibold transition-all cursor-pointer"
+                >
+                  Get Health Advice
+                </Button>
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-zinc-100 dark:border-zinc-900">

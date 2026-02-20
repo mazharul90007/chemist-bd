@@ -29,7 +29,7 @@ const MedicinesPageContent = () => {
   const maxPrice = searchParams.get("maxPrice") || "";
   const popular = searchParams.get("popular") === "true";
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = 12; // Increased limit for smaller cards
+  const limit = 10;
 
   // Fetching
   const { data, isLoading } = useAllMedicines({
@@ -206,7 +206,7 @@ const MedicinesPageContent = () => {
                       onClick={() =>
                         updateQuery({ page: (page - 1).toString() })
                       }
-                      className="w-12 h-12 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-zinc-400 hover:text-emerald-600 border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all"
+                      className="w-12 h-12 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-zinc-400 hover:text-emerald-600 border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all cursor-pointer"
                     >
                       <ChevronLeft size={24} />
                     </Button>
@@ -217,10 +217,11 @@ const MedicinesPageContent = () => {
                           onClick={() =>
                             updateQuery({ page: (i + 1).toString() })
                           }
-                          className={`w-12 h-12 rounded-2xl text-sm font-black transition-all duration-300 ${page === i + 1
+                          className={`w-10 h-10 rounded-xl text-sm font-black transition-all duration-300 ${
+                            page === i + 1
                               ? "bg-zinc-900 dark:bg-emerald-600 text-white shadow-xl scale-110"
                               : "bg-white dark:bg-zinc-900 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 border border-zinc-100 dark:border-zinc-800"
-                            }`}
+                          }`}
                         >
                           {i + 1}
                         </button>
@@ -233,7 +234,7 @@ const MedicinesPageContent = () => {
                       onClick={() =>
                         updateQuery({ page: (page + 1).toString() })
                       }
-                      className="w-12 h-12 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-zinc-400 hover:text-emerald-600 border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all"
+                      className="w-12 h-12 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-zinc-400 hover:text-emerald-600 border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all cursor-pointer"
                     >
                       <ChevronRight size={24} />
                     </Button>

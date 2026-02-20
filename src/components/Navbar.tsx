@@ -6,18 +6,41 @@ import {
   Search,
   ShoppingBag,
   User,
-  Heart,
   Menu,
   Stethoscope,
   Command,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import MobileMenu from "./MobileMenu";
+import { authClient } from "@/lib/auth-client";
+import { usePathname, useRouter } from "next/navigation";
+import { useMyCart } from "@/hooks/useCart";
 
 const Navbar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { data: session, isPending } = authClient.useSession();
+  const { data: cartData } = useMyCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const cartItemsCount = cartData?.data?.cartItems?.length || 0;
+
+  // console.log(session);
+
+  //Logout
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+          router.refresh();
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,8 +54,12 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Medicines", href: "/medicines" },
     { name: "Categories", href: "/categories" },
-    { name: "Offers", href: "/offers" },
+    { name: "Blog", href: "/blog" },
   ];
+
+  if (session) {
+    navLinks.push({ name: "Dashboard", href: "/dashboard" });
+  }
 
   return (
     <nav
@@ -57,15 +84,29 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              // 3. Check if current path matches link href
+              const isActive = pathname === link.href;
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors relative py-1",
+                    isActive
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400",
+                  )}
+                >
+                  {link.name}
+                  {/* Underline indicator for active link */}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-in fade-in zoom-in duration-300" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Search Bar */}
@@ -88,27 +129,62 @@ const Navbar = () => {
           {/* Action Icons */}
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden sm:flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 relative"
-              >
-                <ShoppingBag size={24} />
-                <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
-                  2
-                </span>
-              </Button>
+              <Link href="/cart">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 relative cursor-pointer"
+                >
+                  <ShoppingBag size={28} />
+                  {
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
+                      {cartItemsCount ? cartItemsCount : 0}
+                    </span>
+                  }
+                </Button>
+              </Link>
             </div>
 
             <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block mx-1" />
 
-            <Button
-              variant="outline"
-              className="hidden sm:flex items-center gap-2 rounded-xl border-zinc-200 dark:border-zinc-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/10 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-all font-medium cursor-pointer"
-            >
-              <User size={18} />
-              <span>Login</span>
-            </Button>
+            {/* AUTH SECTION */}
+            {isPending ? (
+              // Loading state while checking session
+              <div className="h-10 w-24 bg-zinc-100 animate-pulse rounded-xl" />
+            ) : session ? (
+              // SHOW THIS IF LOGGED IN
+              <div className="flex items-center gap-3">
+                <div className="hidden md:flex flex-col items-end mr-1">
+                  <span className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                    {session.user.name}
+                  </span>
+                  <span className="text-[10px] text-zinc-500 font-black tracking-tighter">
+                    {session.user.email}
+                  </span>
+                </div>
+
+                {/* Logout Button (Or you could use a DropdownMenu here) */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleLogout}
+                  className="rounded-xl hover:bg-red-50 dark:hover:bg-red-900/10 text-zinc-500 hover:text-red-600 transition-colors cursor-pointer"
+                >
+                  <LogOut size={20} />
+                </Button>
+              </div>
+            ) : (
+              // SHOW THIS IF NOT LOGGED IN
+              <Link href="/login">
+                <Button
+                  variant="outline"
+                  className="hidden sm:flex items-center gap-2 rounded-xl border-zinc-200 dark:border-zinc-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all font-medium cursor-pointer"
+                >
+                  <User size={18} />
+                  <span>Login</span>
+                </Button>
+              </Link>
+            )}
 
             {/* Mobile Toggle */}
             <Button
@@ -128,6 +204,9 @@ const Navbar = () => {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         links={navLinks}
+        session={session}
+        onLogout={handleLogout}
+        pathname={pathname}
       />
     </nav>
   );

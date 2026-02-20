@@ -3,8 +3,9 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Star, Eye } from "lucide-react";
+import { ShoppingCart, Star, Eye, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useAddToCart } from "@/hooks/useCart";
 
 interface MedicineProps {
   id: string;
@@ -32,6 +33,14 @@ const MedicineCard = ({
   const discountPrice = discount ? price - (price * discount) / 100 : price;
   const displayRating = rating || 0;
 
+  const { mutate: addToCart, isPending } = useAddToCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(id);
+  };
+
   return (
     <div className="group bg-white dark:bg-zinc-950 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-900 hover:border-emerald-500/30 transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] flex flex-col h-full">
       <div className="relative aspect-[4/5] overflow-hidden bg-zinc-50 dark:bg-zinc-900">
@@ -47,14 +56,16 @@ const MedicineCard = ({
           className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
-        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex justify-center gap-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            className="rounded-xl h-9 bg-white dark:bg-emerald-600 text-zinc-900 dark:text-white border-none shadow-2xl hover:bg-emerald-500 dark:hover:bg-emerald-500 transition-all duration-300 font-black text-[10px] uppercase tracking-widest px-4"
-          >
-            View Details
-          </Button>
+        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-linear-to-t from-black/80 via-black/40 to-transparent flex justify-center gap-2">
+          <Link href={`/medicine/${id}`}>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="rounded-xl h-9 bg-white dark:bg-emerald-600 text-zinc-900 dark:text-white border-none shadow-2xl hover:bg-emerald-500 dark:hover:bg-emerald-500 transition-all duration-300 font-black text-[10px] uppercase tracking-widest px-4 cursor-pointer"
+            >
+              View Details
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -64,7 +75,7 @@ const MedicineCard = ({
             {category}
           </span>
           {company && (
-            <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-600 truncate max-w-[70px] uppercase tracking-tight">
+            <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-600 truncate max-w-17.5  uppercase tracking-tight">
               {company}
             </span>
           )}
@@ -84,7 +95,9 @@ const MedicineCard = ({
         <div className="mt-auto pt-4 border-t border-zinc-50 dark:border-zinc-900/50">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="text-lg font-black text-zinc-900 dark:text-zinc-50 tracking-tighter">${discountPrice.toFixed(2)}</span>
+              <span className="text-lg font-black text-zinc-900 dark:text-zinc-50 tracking-tighter">
+                ${discountPrice.toFixed(2)}
+              </span>
               {discount && (
                 <span className="text-[10px] text-zinc-400 line-through -mt-1 font-bold">
                   ${price.toFixed(2)}
@@ -93,9 +106,18 @@ const MedicineCard = ({
             </div>
             <Button
               size="icon"
-              className="rounded-2xl w-10 h-10 bg-zinc-900 dark:bg-emerald-600/10 dark:text-emerald-500 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white transition-all duration-300 group/btn"
+              disabled={isPending}
+              onClick={handleAddToCart}
+              className="rounded-xl p-4 bg-zinc-900 dark:bg-emerald-600/10 dark:text-emerald-500 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white transition-all duration-300 group/btn cursor-pointer"
             >
-              <ShoppingCart size={18} className="transition-transform group-hover/btn:scale-110" />
+              {isPending ? (
+                <Loader2 size={18} className="animate-spin text-emerald-500" />
+              ) : (
+                <ShoppingCart
+                  size={18}
+                  className="transition-transform group-hover/btn:scale-110"
+                />
+              )}
             </Button>
           </div>
         </div>

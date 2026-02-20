@@ -26,3 +26,12 @@ export const useCategories = () => {
     queryFn: () => medicineApi.getCategories(),
   });
 };
+
+//============Get Single Medicine=================
+export const useMedicineById = (id: string) => {
+  return useQuery({
+    queryKey: ["medicine", id],
+    queryFn: () => medicineApi.getMedicineById(id),
+    enabled: !!id,
+  });
+};

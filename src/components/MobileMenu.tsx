@@ -1,7 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { X, Search, Heart, ShoppingBag, User, Stethoscope } from "lucide-react";
+import {
+  X,
+  Search,
+  Heart,
+  ShoppingBag,
+  User,
+  Stethoscope,
+  LogOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -9,9 +17,20 @@ interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   links: { name: string; href: string }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  session: any;
+  onLogout: () => Promise<void>;
+  pathname: string;
 }
 
-const MobileMenu = ({ isOpen, onClose, links }: MobileMenuProps) => {
+const MobileMenu = ({
+  isOpen,
+  onClose,
+  links,
+  session,
+  onLogout,
+  pathname,
+}: MobileMenuProps) => {
   return (
     <>
       {/* Backdrop */}
@@ -65,16 +84,24 @@ const MobileMenu = ({ isOpen, onClose, links }: MobileMenuProps) => {
 
         {/* Links */}
         <div className="flex flex-col gap-1 mb-8">
-          {links.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={onClose}
-              className="flex items-center p-3 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all font-medium"
-            >
-              {link.name}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={onClose}
+                className={cn(
+                  "flex items-center p-3 rounded-xl font-medium transition-all",
+                  isActive
+                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900",
+                )}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="border-t border-zinc-100 dark:border-zinc-900 pt-6 flex flex-col gap-4">
@@ -97,10 +124,37 @@ const MobileMenu = ({ isOpen, onClose, links }: MobileMenuProps) => {
               </span>
             </Button>
           </div>
-          <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl py-6 font-semibold shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
-            <User size={18} />
-            Login / Signup
-          </Button>
+          {/* Dynamic auth section for mobile */}
+          {session ? (
+            <div className="space-y-3">
+              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
+                <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50">
+                  {session.user.name}
+                </p>
+                <p className="text-xs text-zinc-500 truncate">
+                  {session.user.email}
+                </p>
+              </div>
+              <Button
+                onClick={() => {
+                  onLogout();
+                  onClose();
+                }}
+                variant="outline"
+                className="w-full border-red-100 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl py-6 font-semibold flex items-center justify-center gap-2"
+              >
+                <LogOut size={18} />
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Link href="/login" onClick={onClose}>
+              <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl py-6 font-semibold shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <User size={18} />
+                Login / Signup
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </>
