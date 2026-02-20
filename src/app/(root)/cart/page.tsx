@@ -25,10 +25,10 @@ const CartPage = () => {
   const { mutate: removeFromCart, isPending: isRemoving } = useRemoveFromCart();
   const { mutate: updateQuantity, isPending: isUpdating } =
     useUpdateCartQuantity();
-  console.log(data);
 
   const cart = data?.data;
   const cartItems = cart?.cartItems || [];
+  console.log(cartItems);
 
   const totalPrice = cartItems.reduce(
     (acc: number, item: ICartItem) =>
@@ -135,14 +135,16 @@ const CartPage = () => {
                   >
                     {/* Item Image */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-zinc-50 dark:bg-zinc-800 shrink-0">
-                      <Image
-                        src={
-                          item.medicine.photoUrl || "/assets/images/noImg.jpg"
-                        }
-                        alt={item.medicine.name || "Medicine"}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                      <Link href={`/medicine/${item.medicineId}`}>
+                        <Image
+                          src={
+                            item.medicine.photoUrl || "/assets/images/noImg.jpg"
+                          }
+                          alt={item.medicine.name || "Medicine"}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      </Link>
                     </div>
 
                     {/* Item Details */}
@@ -167,11 +169,14 @@ const CartPage = () => {
                           <span>
                             <FaBangladeshiTakaSign size={18} />{" "}
                           </span>{" "}
-                          {((item.medicine.price || 0) * item.quantity).toFixed(2)}
+                          {((item.medicine.price || 0) * item.quantity).toFixed(
+                            2,
+                          )}
                         </span>
                         {item.quantity > 1 && (
                           <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
-                            Tk {(item.medicine.price || 0).toFixed(2)} x {item.quantity}
+                            Tk {(item.medicine.price || 0).toFixed(2)} x{" "}
+                            {item.quantity}
                           </span>
                         )}
                       </div>
