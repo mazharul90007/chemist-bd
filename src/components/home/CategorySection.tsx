@@ -57,11 +57,11 @@ const CategorySection = () => {
   const categories = categoriesData?.data || [];
 
   return (
-    <section className="py-20 bg-zinc-50 dark:bg-zinc-950/50 relative overflow-hidden">
+    <section className="py-16 bg-zinc-50 dark:bg-zinc-950/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent" />
 
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-4">
               <Activity size={12} />
@@ -90,34 +90,22 @@ const CategorySection = () => {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="animate-pulse bg-white dark:bg-zinc-900 rounded-[2.5rem] p-8 h-48 border border-zinc-100 dark:border-zinc-800"
+                className="animate-pulse bg-white dark:bg-zinc-900 rounded-[2.5rem] p-6 h-48 border border-zinc-100 dark:border-zinc-800"
               />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="flex flex-wrap gap-2">
             {categories.map((category: IMedicineCategory) => {
-              const config =
-                categoryConfig[category.categoryName] || categoryConfig.Default;
-              const Icon = config.icon;
-
               return (
                 <Link
                   key={category.id}
                   href={`/medicines?categoryId=${category.id}`}
-                  className="group flex flex-col items-center p-6 bg-white dark:bg-zinc-900 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] hover:-translate-y-2 border border-zinc-100 dark:border-zinc-800 hover:border-emerald-500/30"
+                  className="py-2 px-6 bg-emerald-50 dark:bg-zinc-700 rounded-full transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] hover:-translate-y-2 border border-zinc-300 dark:border-zinc-800 hover:border-emerald-500/30"
                 >
-                  <div
-                    className={`p-5 rounded-3xl ${config.color} mb-6 group-hover:scale-110 transition-all duration-500 shadow-sm group-hover:shadow-lg`}
-                  >
-                    <Icon size={32} />
-                  </div>
                   <h3 className="font-black text-zinc-900 dark:text-zinc-50 text-center tracking-tight transition-colors group-hover:text-emerald-600 line-clamp-1">
                     {category.categoryName}
                   </h3>
-                  <div className="flex items-center gap-1 text-[10px] font-bold text-zinc-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
-                    View Products <ChevronRight size={10} />
-                  </div>
                 </Link>
               );
             })}

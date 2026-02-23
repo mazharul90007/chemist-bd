@@ -36,3 +36,20 @@ export interface IMedicine {
     email: string;
   };
 }
+
+export interface IMedicineCreate {
+  name: string;
+  generic_name?: string;
+  strength?: string;
+  company: string;
+  photoUrl?: string;
+  quantity: number;
+  price: number;
+  Indications?: string;
+  Pharmacology?: string;
+  type: string;
+  categoryId: string;
+  dosage?: string;
+  side_effects?: string;
+  warnings?: string;
+}

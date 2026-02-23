@@ -1,25 +1,75 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Package,
   Wallet,
   Clock,
   ArrowUpRight,
   LayoutDashboard,
+  CheckCircle2,
+  Truck,
+  XCircle,
+  ShoppingBag,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useSellerOrders } from "@/hooks/useOrder";
 
 const SellerOverview = () => {
   const { data: session } = authClient.useSession();
+  const { data: ordersData, isLoading } = useSellerOrders();
 
-  const stats = [
-    { label: "Total Medicines", value: "48", icon: Package, color: "text-blue-600 bg-blue-50" },
-    { label: "Total Sales", value: "Tk 45.2k", icon: Wallet, color: "text-emerald-600 bg-emerald-50" },
-    { label: "Pending Orders", value: "12", icon: Clock, color: "text-orange-600 bg-orange-50" },
-  ];
+  const stats = useMemo(() => {
+    const orders = ordersData?.data || [];
+
+    const totalOrders = orders.length;
+    const pendingOrders = orders.filter(o => o.status === "PENDING").length;
+    const confirmedOrders = orders.filter(o => o.status === "CONFIRMED").length;
+    const onTheWayOrders = orders.filter(o => o.status === "ON_THE_WAY").length;
+    const deliveredOrders = orders.filter(o => o.status === "DELIVERED").length;
+    const canceledOrders = orders.filter(o => o.status === "CANCELED").length;
+
+    return [
+      {
+        label: "Total Orders",
+        value: isLoading ? "..." : totalOrders.toString(),
+        icon: ShoppingBag,
+        color: "text-blue-600 bg-blue-50"
+      },
+      {
+        label: "Pending Orders",
+        value: isLoading ? "..." : pendingOrders.toString(),
+        icon: Clock,
+        color: "text-orange-600 bg-orange-50"
+      },
+      {
+        label: "Confirmed Orders",
+        value: isLoading ? "..." : confirmedOrders.toString(),
+        icon: CheckCircle2,
+        color: "text-indigo-600 bg-indigo-50"
+      },
+      {
+        label: "On The Way",
+        value: isLoading ? "..." : onTheWayOrders.toString(),
+        icon: Truck,
+        color: "text-purple-600 bg-purple-50"
+      },
+      {
+        label: "Delivered",
+        value: isLoading ? "..." : deliveredOrders.toString(),
+        icon: Package,
+        color: "text-emerald-600 bg-emerald-50"
+      },
+      {
+        label: "Canceled",
+        value: isLoading ? "..." : canceledOrders.toString(),
+        icon: XCircle,
+        color: "text-rose-600 bg-rose-50"
+      },
+    ];
+  }, [ordersData, isLoading]);
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -27,7 +77,7 @@ const SellerOverview = () => {
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-black text-zinc-900 dark:text-zinc-50 tracking-tighter">
-              Hello, <span className="text-emerald-600">{session?.user.name.split(" ")[0]}</span>
+              Hello, <span className="text-emerald-600">{session?.user?.name?.split(" ")[0]}</span>
             </h1>
             <Badge className="bg-emerald-600/10 text-emerald-600 border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest">
               Seller
@@ -39,7 +89,7 @@ const SellerOverview = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -77,8 +127,11 @@ const SellerOverview = () => {
             Manage your inventory and track your sales growth.
           </h2>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer">
+            <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer" onClick={() => window.location.href = "/dashboard/seller/add-medicine"}>
               Add New Medicine
+            </button>
+            <button className="bg-zinc-800 hover:bg-zinc-700 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer" onClick={() => window.location.href = "/dashboard/seller/medicines"}>
+              View Inventory
             </button>
           </div>
         </div>

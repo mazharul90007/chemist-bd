@@ -53,8 +53,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Medicines", href: "/medicines" },
-    { name: "Categories", href: "/categories" },
-    { name: "Blog", href: "/blog" },
+    { name: "Blogs", href: "/blogs" },
   ];
 
   if (session) {
@@ -110,7 +109,7 @@ const Navbar = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-md relative group">
+          {/* <div className="hidden md:flex flex-1 max-w-md relative group">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
               <Search size={18} />
             </div>
@@ -124,7 +123,7 @@ const Navbar = () => {
                 <Command size={10} /> K
               </kbd>
             </div>
-          </div>
+          </div> */}
 
           {/* Action Icons */}
           <div className="flex items-center gap-2 md:gap-4">

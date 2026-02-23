@@ -71,7 +71,7 @@ const MobileMenu = ({
         </div>
 
         {/* Mobile Search */}
-        <div className="mb-8 relative">
+        {/* <div className="mb-8 relative">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
             <Search size={18} />
           </div>
@@ -80,7 +80,7 @@ const MobileMenu = ({
             placeholder="Search..."
             className="w-full bg-zinc-100 dark:bg-zinc-900 border-none rounded-xl py-2.5 pl-10 pr-4 text-sm outline-none"
           />
-        </div>
+        </div> */}
 
         {/* Links */}
         <div className="flex flex-col gap-1 mb-8">

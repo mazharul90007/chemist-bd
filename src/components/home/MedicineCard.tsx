@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Star, Eye, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useAddToCart } from "@/hooks/useCart";
+import { authClient } from "@/lib/auth-client";
 
 interface MedicineProps {
   id: string;
@@ -31,11 +32,15 @@ const MedicineCard = ({
   rating,
 }: MedicineProps) => {
   const discountPrice = discount ? price - (price * discount) / 100 : price;
-  const displayRating = rating || 0;
+  // const displayRating = rating || 0;
 
   const { mutate: addToCart, isPending } = useAddToCart();
+  const { data: session } = authClient.useSession();
 
   const handleAddToCart = (e: React.MouseEvent) => {
+    if (!session?.user) {
+      alert("Login first");
+    }
     e.preventDefault();
     e.stopPropagation();
     addToCart(id);

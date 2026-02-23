@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-white dark:bg-zinc-950 py-10 lg:py-12">
+    <section className="relative overflow-hidden bg-white dark:bg-zinc-950 py-4 lg:py-6">
       {/* Background patterns */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-150 h-150 bg-emerald-100/50 dark:bg-emerald-900/10 rounded-full blur-3xl opacity-50" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-100 h-100 bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-3xl opacity-50" />
