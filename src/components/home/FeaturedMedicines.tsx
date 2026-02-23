@@ -2,10 +2,9 @@
 
 import MedicineCard from "./MedicineCard";
 import { Button } from "@/components/ui/button";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { IMedicine } from "@/types/medicine.type";
 import { usePopularMedicines } from "@/hooks/useMedicine";
-import Link from "next/link";
 import LinkableButton from "@/app/shared/LinkableButton";
 
 const FeaturedMedicines = () => {

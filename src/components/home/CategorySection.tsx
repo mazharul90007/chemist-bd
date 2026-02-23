@@ -2,56 +2,9 @@
 
 import { useCategories } from "@/hooks/useMedicine";
 import { IMedicineCategory } from "@/types/medicine.type";
-import { Button } from "@/components/ui/button";
-import {
-  Pill,
-  Baby,
-  HeartPulse,
-  Dna,
-  Activity,
-  Sparkles,
-  Stethoscope,
-  ChevronRight,
-  LucideIcon,
-} from "lucide-react";
 import Link from "next/link";
 import LinkableButton from "@/app/shared/LinkableButton";
-
-// Icon \u0026 Style mapping for dynamic categories
-const categoryConfig: Record<string, { icon: LucideIcon; color: string }> = {
-  Prescription: {
-    icon: Pill,
-    color: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
-  },
-  "Baby Care": {
-    icon: Baby,
-    color: "bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400",
-  },
-  "Personal Care": {
-    icon: Sparkles,
-    color:
-      "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400",
-  },
-  Nutrition: {
-    icon: Activity,
-    color:
-      "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400",
-  },
-  Devices: {
-    icon: HeartPulse,
-    color:
-      "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400",
-  },
-  Wellness: {
-    icon: Dna,
-    color: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400",
-  },
-  Default: {
-    icon: Stethoscope,
-    color:
-      "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400",
-  },
-};
+import { Activity } from "lucide-react";
 
 const CategorySection = () => {
   const { data: categoriesData, isLoading } = useCategories();

@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Star, Eye, Loader2 } from "lucide-react";
+import { ShoppingCart, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useAddToCart } from "@/hooks/useCart";
 import { authClient } from "@/lib/auth-client";
@@ -29,7 +29,6 @@ const MedicineCard = ({
   discount,
   company,
   strength,
-  rating,
 }: MedicineProps) => {
   const discountPrice = discount ? price - (price * discount) / 100 : price;
   // const displayRating = rating || 0;
@@ -48,7 +47,7 @@ const MedicineCard = ({
 
   return (
     <div className="group bg-white dark:bg-zinc-950 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-900 hover:border-emerald-500/30 transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] flex flex-col h-full">
-      <div className="relative aspect-[4/5] overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+      <div className="relative aspect-4/5 overflow-hidden bg-zinc-50 dark:bg-zinc-900">
         {discount && (
           <div className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-lg uppercase tracking-wider shadow-xl shadow-red-500/20">
             {discount}% OFF
