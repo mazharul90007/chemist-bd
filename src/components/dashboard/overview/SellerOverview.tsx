@@ -3,7 +3,6 @@
 import React, { useMemo } from "react";
 import {
   Package,
-  Wallet,
   Clock,
   ArrowUpRight,
   LayoutDashboard,
@@ -25,48 +24,54 @@ const SellerOverview = () => {
     const orders = ordersData?.data || [];
 
     const totalOrders = orders.length;
-    const pendingOrders = orders.filter(o => o.status === "PENDING").length;
-    const confirmedOrders = orders.filter(o => o.status === "CONFIRMED").length;
-    const onTheWayOrders = orders.filter(o => o.status === "ON_THE_WAY").length;
-    const deliveredOrders = orders.filter(o => o.status === "DELIVERED").length;
-    const canceledOrders = orders.filter(o => o.status === "CANCELED").length;
+    const pendingOrders = orders.filter((o) => o.status === "PENDING").length;
+    const confirmedOrders = orders.filter(
+      (o) => o.status === "CONFIRMED",
+    ).length;
+    const onTheWayOrders = orders.filter(
+      (o) => o.status === "ON_THE_WAY",
+    ).length;
+    const deliveredOrders = orders.filter(
+      (o) => o.status === "DELIVERED",
+    ).length;
+    const canceledOrders = orders.filter((o) => o.status === "CANCELED").length;
 
     return [
       {
         label: "Total Orders",
         value: isLoading ? "..." : totalOrders.toString(),
         icon: ShoppingBag,
-        color: "text-blue-600 bg-blue-50"
+        color: "text-blue-600 bg-blue-50",
       },
       {
         label: "Pending Orders",
         value: isLoading ? "..." : pendingOrders.toString(),
         icon: Clock,
-        color: "text-orange-600 bg-orange-50"
+        color: "text-orange-600 bg-orange-50",
       },
       {
         label: "Confirmed Orders",
         value: isLoading ? "..." : confirmedOrders.toString(),
         icon: CheckCircle2,
-        color: "text-indigo-600 bg-indigo-50"
+        color: "text-indigo-600 bg-indigo-50",
       },
       {
         label: "On The Way",
         value: isLoading ? "..." : onTheWayOrders.toString(),
         icon: Truck,
-        color: "text-purple-600 bg-purple-50"
+        color: "text-purple-600 bg-purple-50",
       },
       {
         label: "Delivered",
         value: isLoading ? "..." : deliveredOrders.toString(),
         icon: Package,
-        color: "text-emerald-600 bg-emerald-50"
+        color: "text-emerald-600 bg-emerald-50",
       },
       {
         label: "Canceled",
         value: isLoading ? "..." : canceledOrders.toString(),
         icon: XCircle,
-        color: "text-rose-600 bg-rose-50"
+        color: "text-rose-600 bg-rose-50",
       },
     ];
   }, [ordersData, isLoading]);
@@ -77,7 +82,10 @@ const SellerOverview = () => {
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-black text-zinc-900 dark:text-zinc-50 tracking-tighter">
-              Hello, <span className="text-emerald-600">{session?.user?.name?.split(" ")[0]}</span>
+              Hello,{" "}
+              <span className="text-emerald-600">
+                {session?.user?.name?.split(" ")[0]}
+              </span>
             </h1>
             <Badge className="bg-emerald-600/10 text-emerald-600 border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest">
               Seller
@@ -101,7 +109,10 @@ const SellerOverview = () => {
                 <div className={cn("p-3 rounded-2xl", stat.color)}>
                   <Icon size={24} />
                 </div>
-                <ArrowUpRight size={20} className="text-zinc-300 group-hover:text-emerald-600 transition-colors" />
+                <ArrowUpRight
+                  size={20}
+                  className="text-zinc-300 group-hover:text-emerald-600 transition-colors"
+                />
               </div>
               <div>
                 <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">
@@ -121,16 +132,28 @@ const SellerOverview = () => {
         <div className="relative z-10 space-y-6">
           <div className="flex items-center gap-2">
             <LayoutDashboard size={18} className="text-emerald-500" />
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">Seller Actions</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">
+              Seller Actions
+            </h3>
           </div>
           <h2 className="text-3xl font-black tracking-tighter max-w-md">
             Manage your inventory and track your sales growth.
           </h2>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer" onClick={() => window.location.href = "/dashboard/seller/add-medicine"}>
+            <button
+              className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer"
+              onClick={() =>
+                (window.location.href = "/dashboard/seller/add-medicine")
+              }
+            >
               Add New Medicine
             </button>
-            <button className="bg-zinc-800 hover:bg-zinc-700 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer" onClick={() => window.location.href = "/dashboard/seller/medicines"}>
+            <button
+              className="bg-zinc-800 hover:bg-zinc-700 text-white px-8 h-12 rounded-2xl font-black text-sm transition-all hover:scale-[1.02] cursor-pointer"
+              onClick={() =>
+                (window.location.href = "/dashboard/seller/medicines")
+              }
+            >
               View Inventory
             </button>
           </div>

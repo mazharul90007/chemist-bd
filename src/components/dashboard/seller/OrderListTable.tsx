@@ -70,7 +70,7 @@ const statusConfig: Record<
 
 const OrderListTable = ({ orders }: OrderListTableProps) => {
   const [expandedOrders, setExpandedOrders] = useState<Set<string>>(new Set());
-  const { mutate: updateStatus, isPending } = useUpdateOrderStatus();
+  const { mutate: updateStatus } = useUpdateOrderStatus();
 
   const toggleExpand = (orderId: string) => {
     const newExpanded = new Set(expandedOrders);

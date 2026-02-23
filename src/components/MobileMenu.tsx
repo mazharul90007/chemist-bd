@@ -1,15 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  X,
-  Search,
-  Heart,
-  ShoppingBag,
-  User,
-  Stethoscope,
-  LogOut,
-} from "lucide-react";
+import { X, ShoppingBag, User, Stethoscope, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

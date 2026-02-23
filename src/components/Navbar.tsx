@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  Search,
-  ShoppingBag,
-  User,
-  Menu,
-  Stethoscope,
-  Command,
-  LogOut,
-} from "lucide-react";
+import { ShoppingBag, User, Menu, Stethoscope, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import MobileMenu from "./MobileMenu";
@@ -63,13 +55,16 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out border-b py-4 sm:py-3",
+        "fixed top-0 left-0 right-0 z-100 transition-all duration-300 ease-in-out border-b py-4 sm:py-3",
         // Base state: Solid background for mobile/tablet
         "bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 shadow-md",
         // Desktop (lg) state: Transparent until scroll or menu
-        !isScrolled && !isMobileMenuOpen && "lg:bg-transparent lg:border-transparent lg:shadow-none",
+        !isScrolled &&
+          !isMobileMenuOpen &&
+          "lg:bg-transparent lg:border-transparent lg:shadow-none",
         // Desktop (lg) state: Scrolled/Active (blur)
-        (isScrolled || isMobileMenuOpen) && "lg:bg-white/80 lg:dark:bg-zinc-950/80 lg:backdrop-blur-md"
+        (isScrolled || isMobileMenuOpen) &&
+          "lg:bg-white/80 lg:dark:bg-zinc-950/80 lg:backdrop-blur-md",
       )}
     >
       <div className="container mx-auto px-4 md:px-6">

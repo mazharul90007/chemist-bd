@@ -74,7 +74,7 @@ const BlogDetailsPage = () => {
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-950 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-white dark:from-zinc-950 via-black/20 to-transparent" />
 
         <div className="absolute top-8 left-8">
           <Button
