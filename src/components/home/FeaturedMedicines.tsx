@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Loader2, ArrowRight } from "lucide-react";
 import { IMedicine } from "@/types/medicine.type";
 import { usePopularMedicines } from "@/hooks/useMedicine";
+import Link from "next/link";
+import LinkableButton from "@/app/shared/LinkableButton";
 
 const FeaturedMedicines = () => {
   const { data, isLoading, error } = usePopularMedicines();
@@ -27,16 +29,7 @@ const FeaturedMedicines = () => {
               currently in demand.
             </p>
           </div>
-          <Button
-            variant="outline"
-            className="hidden md:flex items-center gap-2 rounded-xl group font-semibold"
-          >
-            View Shop
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </Button>
+          <LinkableButton title="View Shop" link="medicines" />
         </div>
 
         {isLoading ? (

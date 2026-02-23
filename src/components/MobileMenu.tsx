@@ -21,6 +21,7 @@ interface MobileMenuProps {
   session: any;
   onLogout: () => Promise<void>;
   pathname: string;
+  cartItemsCount: number;
 }
 
 const MobileMenu = ({
@@ -30,13 +31,14 @@ const MobileMenu = ({
   session,
   onLogout,
   pathname,
+  cartItemsCount,
 }: MobileMenuProps) => {
   return (
     <>
       {/* Backdrop */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 backdrop-blur-sm z-60 transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 bg-black/60 z-60 transition-opacity duration-300 lg:hidden",
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",
@@ -109,18 +111,11 @@ const MobileMenu = ({
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full text-zinc-600 dark:text-zinc-400"
-            >
-              <Heart size={20} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
               className="rounded-full text-zinc-600 dark:text-zinc-400 relative"
             >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={24} />
               <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
-                2
+                {cartItemsCount ? cartItemsCount : 0}
               </span>
             </Button>
           </div>

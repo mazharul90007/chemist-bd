@@ -30,12 +30,7 @@ const CustomerOverview = () => {
   const pendingOrders = orders.filter((o) => o.status === "PENDING").length;
   const deliveredOrders = orders.filter((o) => o.status === "DELIVERED").length;
   const totalSpent = orders
-    .filter(
-      (o) =>
-        o.status === "DELIVERED" ||
-        o.status === "PAID" ||
-        o.status === "SHIPPED",
-    )
+    .filter((o) => o.paymentStatus === "PAID")
     .reduce((sum, o) => sum + o.totalAmount, 0);
 
   const stats = [

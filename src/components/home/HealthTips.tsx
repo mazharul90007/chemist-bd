@@ -1,11 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MoveRight, Heart, Brain, Wind, Activity } from "lucide-react";
+import {
+    MoveRight,
+    Heart,
+    Brain,
+    Wind,
+    Activity,
+    ArrowRight,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { IBlog } from "@/types/blog.type";
+import LinkableButton from "@/app/shared/LinkableButton";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const categoryIcons: Record<string, any> = {
     Cardio: Heart,
     "Mental Health": Brain,
@@ -93,7 +102,7 @@ const HealthTips = () => {
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-1000"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
                                     <div className="absolute top-6 left-6 bg-white/95 dark:bg-zinc-900/95 backdrop-blur shadow-xl px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/20">
                                         <Icon size={16} className={colorClass} />
                                         <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-widest">
@@ -110,6 +119,9 @@ const HealthTips = () => {
                             </Link>
                         );
                     })}
+                </div>
+                <div className="flex items-end justify-end mt-12">
+                    <LinkableButton title="View All Articles" link="blogs" />
                 </div>
             </div>
         </section>

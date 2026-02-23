@@ -7,28 +7,31 @@ import { IMedicineCategory } from "@/types/medicine.type";
 
 //===========Get All Categories===========
 export const useAllCategories = () => {
-    return useQuery({
-        queryKey: ["admin-categories"],
-        queryFn: () => categoryApi.getAllCategories(),
-    });
+  return useQuery({
+    queryKey: ["admin-categories"],
+    queryFn: () => categoryApi.getAllCategories(),
+  });
 };
 
 //===========Create Category===========
 export const useCreateCategory = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (data: { name: string; description?: string; image?: string }) =>
-            categoryApi.createCategory(data),
-        onSuccess: (data: ApiResponse<IMedicineCategory>) => {
-            toast.success(data?.message || "Category created successfully!");
-            queryClient.invalidateQueries({ queryKey: ["admin-categories"] });
-            queryClient.invalidateQueries({ queryKey: ["categories"] });
-        },
-        onError: (error: AxiosError<ApiResponse<any>>) => {
-            toast.error(
-                error?.response?.data?.message || "Failed to create category",
-            );
-        },
-    });
+  return useMutation({
+    mutationFn: (data: {
+      categoryName: string;
+      description?: string;
+      image?: string;
+    }) => categoryApi.createCategory(data),
+    onSuccess: (data: ApiResponse<IMedicineCategory>) => {
+      toast.success(data?.message || "Category created successfully!");
+      queryClient.invalidateQueries({ queryKey: ["admin-categories"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+    onError: (error: AxiosError<ApiResponse<any>>) => {
+      toast.error(
+        error?.response?.data?.message || "Failed to create category",
+      );
+    },
+  });
 };

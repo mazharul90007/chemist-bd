@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -17,6 +17,7 @@ import { authClient } from "@/lib/auth-client";
 
 const SignUpForm = () => {
   const router = useRouter();
+  const { data: session, isPending: isSessionLoading } = authClient.useSession();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,6 +26,23 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (session) {
+      router.replace("/");
+    }
+  }, [session, router]);
+
+  if (isSessionLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="animate-spin text-emerald-600" size={32} />
+      </div>
+    );
+  }
+
+  if (session) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

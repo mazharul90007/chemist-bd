@@ -15,6 +15,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
+import LinkableButton from "@/app/shared/LinkableButton";
 
 // Icon \u0026 Style mapping for dynamic categories
 const categoryConfig: Record<string, { icon: LucideIcon; color: string }> = {
@@ -75,14 +76,7 @@ const CategorySection = () => {
               specialty to help you find exactly what you need.
             </p>
           </div>
-          <Link href="/medicines">
-            <Button
-              variant="outline"
-              className="rounded-2xl font-black border-zinc-200 dark:border-zinc-800 hover:border-emerald-600 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all h-12 px-6"
-            >
-              Browse All Products
-            </Button>
-          </Link>
+          <LinkableButton title="Browse All Products" link="medicines" />
         </div>
 
         {isLoading ? (

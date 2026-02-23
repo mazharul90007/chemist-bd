@@ -18,8 +18,12 @@ import { Button } from "@/components/ui/button";
 
 const statusConfig: Record<OrderStatus, { color: string; label: string }> = {
   PENDING: { color: "text-orange-500 bg-orange-500/10", label: "Pending" },
-  PAID: { color: "text-emerald-500 bg-emerald-500/10", label: "Paid" },
-  SHIPPED: { color: "text-blue-500 bg-blue-500/10", label: "Shipped" },
+  CONFIRMED: { color: "text-blue-500 bg-blue-500/10", label: "Confirmed" },
+  PACKAGING: { color: "text-indigo-500 bg-indigo-500/10", label: "Packaging" },
+  ON_THE_WAY: {
+    color: "text-purple-500 bg-purple-500/10",
+    label: "On The Way",
+  },
   DELIVERED: { color: "text-green-500 bg-green-500/10", label: "Delivered" },
   CANCELED: { color: "text-red-500 bg-red-500/10", label: "Canceled" },
 };
@@ -102,8 +106,9 @@ const OrdersPage = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge
-                          className={`rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wider border-none ${statusConfig[order.status].color
-                            }`}
+                          className={`rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wider border-none ${
+                            statusConfig[order.status].color
+                          }`}
                         >
                           <Circle size={8} className="mr-1 fill-current" />
                           {statusConfig[order.status].label}

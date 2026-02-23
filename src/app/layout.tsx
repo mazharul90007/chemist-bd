@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Providers>
           <Navbar />
-          <main className="min-h-screen pt-20 md:pt-24 bg-white dark:bg-zinc-950">
+          <main className="min-h-screen pt-16 md:pt-20 bg-white dark:bg-zinc-950">
             {children}
           </main>
         </Providers>

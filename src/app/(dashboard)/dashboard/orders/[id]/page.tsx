@@ -26,9 +26,10 @@ import Link from "next/link";
 
 const statusConfig: Record<OrderStatus, { color: string; label: string }> = {
     PENDING: { color: "text-orange-600 bg-orange-50", label: "Pending" },
-    PAID: { color: "text-emerald-600 bg-emerald-50", label: "Paid" },
-    SHIPPED: { color: "text-blue-600 bg-blue-50", label: "Shipped" },
-    DELIVERED: { color: "text-green-600 bg-green-50", label: "Delivered" },
+    CONFIRMED: { color: "text-blue-600 bg-blue-50", label: "Confirmed" },
+    PACKAGING: { color: "text-indigo-600 bg-indigo-50", label: "Packaging" },
+    ON_THE_WAY: { color: "text-purple-600 bg-purple-50", label: "On The Way" },
+    DELIVERED: { color: "text-emerald-600 bg-emerald-50", label: "Delivered" },
     CANCELED: { color: "text-red-600 bg-red-50", label: "Canceled" },
 };
 
