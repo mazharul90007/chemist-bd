@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <a href="https://nextjs.org/" target="blank"><img src="https://assets.vercel.com/image/upload/v1662130559/nextjs.svg" width="120" alt="Next.js Logo" /></a>
+</p>
 
-## Getting Started
+<p align="center">A premium Pharmacy & Medicine E-commerce platform built with Next.js.</p>
 
-First, run the development server:
+# CHEMIST BD CLIENT
 
+**CHEMIST BD CLIENT** is a modern, responsive e-commerce frontend designed for pharmacies. It provides a seamless experience for customers to browse medicines, manage their cart, and place orders, while offering powerful dashboards for sellers and administrators.
+
+🌐 **Frontend Live URL:** [https://chemistbd-client.vercel.app](https://chemistbd-client.vercel.app)  
+🌐 **Backend Live URL:** [https://chemist-bd-server.onrender.com](https://chemist-bd-server.onrender.com)  
+🌐 **Backend Github URL:** [https://github.com/mazharul90007/chemist-bd-server](https://github.com/mazharul90007/chemist-bd-server)
+
+---
+
+## ✨ Features
+
+### 👤 Customer Experience
+- **Dynamic Homepage**: Browse featured categories and recommended medicines.
+- **Advanced Search**: Filter medicines by name, category, and availability.
+- **Persistent Cart**: Manage items across sessions with real-time updates.
+- **Order Tracking**: View order status and history.
+- **Profile Management**: Secure account updates and email verification.
+
+### 🏪 Seller Dashboard
+- **Inventory Management**: Add, update, and remove medicine listings.
+- **Order Management**: Track sales and update order fulfillment status.
+- **Sales Analytics**: Overview of selling performance (Overview).
+
+### 🛠️ Admin Dashboard
+- **User Management**: Monitor all users and manage account statuses.
+- **Category Control**: Create and manage pharmacy categories.
+- **System Overview**: High-level statistics of platform activity.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (v16.1.6)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Data Fetching**: [TanStack Query](https://tanstack.com/query)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **UI Components**: Radix UI & Shadcn/UI
+- **Authentication**: [Better-Auth](https://www.better-auth.com/)
+- **API Client**: Axios with interceptors
+- **Icons**: Lucide React & React Icons
+
+---
+
+## 📋 Prerequisites
+
+- **Node.js** (v20 or higher)
+- **pnpm** or **npm**
+- **Backend API Access** (Local or Remote)
+
+---
+
+## 🔧 Setup Instructions
+
+### 1. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mazharul90007/chemistbd-client.git
+cd chemistbd-client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
+```bash
+pnpm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Environment Setup
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_API_URL="https://chemist-bd-server.onrender.com/api/v1"
+BETTER_AUTH_URL="https://chemist-bd-server.onrender.com"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Running Locally
+```bash
+pnpm dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see your app.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📜 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/app`: Next.js App Router and page layouts.
+- `src/components`: Reusable UI components.
+- `src/hooks`: Custom React hooks for data fetching and state.
+- `src/lib`: Utility functions and third-party library configurations.
+- `src/store`: Zustand store definitions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👤 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Mazharul Islam Sourabh**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📝 License
+
+ISC
