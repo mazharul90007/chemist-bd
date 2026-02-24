@@ -89,6 +89,7 @@ const HeroSection = () => {
                 src={"/assets/images/heroImg.jpg"}
                 alt="Healthcare Products"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
                 priority
               />

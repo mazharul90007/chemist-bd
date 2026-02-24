@@ -100,16 +100,18 @@ const MobileMenu = ({
 
         <div className="border-t border-zinc-100 dark:border-zinc-900 pt-6 flex flex-col gap-4">
           <div className="flex items-center justify-around">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full text-zinc-600 dark:text-zinc-400 relative"
-            >
-              <ShoppingBag size={24} />
-              <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
-                {cartItemsCount ? cartItemsCount : 0}
-              </span>
-            </Button>
+            {session?.user?.role === "CUSTOMER" && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full text-zinc-600 dark:text-zinc-400 relative"
+              >
+                <ShoppingBag size={24} />
+                <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
+                  {cartItemsCount ? cartItemsCount : 0}
+                </span>
+              </Button>
+            )}
           </div>
           {/* Dynamic auth section for mobile */}
           {session ? (

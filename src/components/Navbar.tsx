@@ -13,8 +13,9 @@ import { useMyCart } from "@/hooks/useCart";
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session, isPending } = authClient.useSession();
-  const { data: cartData } = useMyCart();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: session, isPending } = authClient.useSession() as any;
+  const { data: cartData } = useMyCart(session?.user?.role === "CUSTOMER");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -126,20 +127,22 @@ const Navbar = () => {
           {/* Action Icons */}
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden sm:flex items-center gap-2">
-              <Link href="/cart">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 relative cursor-pointer"
-                >
-                  <ShoppingBag size={28} />
-                  {
-                    <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
-                      {cartItemsCount ? cartItemsCount : 0}
-                    </span>
-                  }
-                </Button>
-              </Link>
+              {session?.user?.role === "CUSTOMER" && (
+                <Link href="/cart">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 relative cursor-pointer"
+                  >
+                    <ShoppingBag size={28} />
+                    {
+                      <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
+                        {cartItemsCount ? cartItemsCount : 0}
+                      </span>
+                    }
+                  </Button>
+                </Link>
+              )}
             </div>
 
             <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block mx-1" />

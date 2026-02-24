@@ -57,6 +57,7 @@ const MedicineCard = ({
           src={photoUrl || "/assets/images/noImg.jpg"}
           alt={name}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
           className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />

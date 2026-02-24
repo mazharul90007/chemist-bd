@@ -5,10 +5,11 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 
 //===========Get My Cart===========
-export const useMyCart = () => {
+export const useMyCart = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: () => cartApi.getMyCart(),
+    enabled: enabled,
   });
 };
 

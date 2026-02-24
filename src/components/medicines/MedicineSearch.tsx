@@ -12,12 +12,16 @@ const MedicineSearch = ({ initialValue, onSearch }: MedicineSearchProps) => {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
+    // Only search if the value is different from the initial URL value
+    // to prevent redundant search triggers on mount or re-render
+    if (value === initialValue) return;
+
     const timer = setTimeout(() => {
       onSearch(value);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [value, onSearch]);
+  }, [value, onSearch, initialValue]);
 
   return (
     <div className="relative group w-full">

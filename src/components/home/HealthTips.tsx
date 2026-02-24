@@ -93,6 +93,7 @@ const HealthTips = () => {
                     src={blog.image}
                     alt={blog.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-1000"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />

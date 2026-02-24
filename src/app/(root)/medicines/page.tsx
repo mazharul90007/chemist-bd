@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useAllMedicines } from "@/hooks/useMedicine";
 import MedicineCard from "@/components/home/MedicineCard";
@@ -47,18 +47,48 @@ const MedicinesPageContent = () => {
   const totalPages = meta ? Math.ceil(meta.total / meta.limit) : 1;
 
   // Helpers
-  const updateQuery = (newParams: Record<string, string | null>) => {
-    const params = new URLSearchParams(searchParams.toString());
-    Object.entries(newParams).forEach(([key, value]) => {
-      if (value === null || value === "") {
-        params.delete(key);
-      } else {
-        params.set(key, value);
+  const updateQuery = React.useCallback(
+    (newParams: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      Object.entries(newParams).forEach(([key, value]) => {
+        if (value === null || value === "") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+      if (!newParams.page && !params.get("page")) params.set("page", "1");
+
+      const newQueryString = params.toString();
+      const currentQueryString = searchParams.toString();
+
+      // Only push if the query actually changed to avoid infinite cycles
+      if (newQueryString !== currentQueryString) {
+        router.push(`${pathname}?${newQueryString}`, { scroll: false });
       }
-    });
-    if (!newParams.page) params.set("page", "1");
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+    },
+    [searchParams, pathname, router],
+  );
+
+  const handleSearch = React.useCallback(
+    (val: string) => updateQuery({ searchTerm: val }),
+    [updateQuery],
+  );
+
+  const handleCategoryChange = React.useCallback(
+    (id: string) => updateQuery({ categoryId: id }),
+    [updateQuery],
+  );
+
+  const handlePriceChange = React.useCallback(
+    (min: string, max: string) => updateQuery({ minPrice: min, maxPrice: max }),
+    [updateQuery],
+  );
+
+  const handlePopularChange = React.useCallback(
+    (val: boolean) => updateQuery({ popular: val ? "true" : null }),
+    [updateQuery],
+  );
 
   return (
     <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950">
@@ -84,7 +114,7 @@ const MedicinesPageContent = () => {
             <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 p-1 rounded-3xl shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-zinc-200 dark:border-zinc-800">
               <MedicineSearch
                 initialValue={searchTerm}
-                onSearch={(val) => updateQuery({ searchTerm: val })}
+                onSearch={handleSearch}
               />
             </div>
           </div>
@@ -97,16 +127,12 @@ const MedicinesPageContent = () => {
           <aside className="w-full lg:w-72 shrink-0 lg:sticky lg:top-28">
             <MedicineFilters
               activeCategory={categoryId}
-              onCategoryChange={(id) => updateQuery({ categoryId: id })}
+              onCategoryChange={handleCategoryChange}
               minPrice={minPrice}
               maxPrice={maxPrice}
-              onPriceChange={(min, max) =>
-                updateQuery({ minPrice: min, maxPrice: max })
-              }
+              onPriceChange={handlePriceChange}
               popularOnly={popular}
-              onPopularChange={(val) =>
-                updateQuery({ popular: val ? "true" : null })
-              }
+              onPopularChange={handlePopularChange}
               onClear={() => router.push(pathname, { scroll: false })}
             />
           </aside>

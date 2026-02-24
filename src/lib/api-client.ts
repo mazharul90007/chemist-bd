@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from "./axiosInstance";
-import { IMedicine, IMedicineCategory, IMedicineCreate } from "@/types/medicine.type";
+import {
+  IMedicine,
+  IMedicineCategory,
+  IMedicineCreate,
+} from "@/types/medicine.type";
 import { ICreateOrderPayload, IOrder, OrderStatus } from "@/types/order.type";
 
 export interface ApiResponse<T> {
@@ -41,7 +45,8 @@ export const medicineApi = {
   },
 
   getCategories: async (): Promise<ApiResponse<IMedicineCategory[]>> => {
-    const response = await api.get<ApiResponse<IMedicineCategory[]>>("/category");
+    const response =
+      await api.get<ApiResponse<IMedicineCategory[]>>("/category");
     return response.data;
   },
 
@@ -213,6 +218,18 @@ export const adminApi = {
     const response = await api.patch<ApiResponse<any>>(`/admin/users/${id}`, {
       status,
     });
+    return response.data;
+  },
+
+  updateUserRole: async (
+    id: string,
+    role: string,
+  ): Promise<ApiResponse<any>> => {
+    const response = await api.patch<ApiResponse<any>>(
+      `/admin/users/role/${id}`,
+      { role },
+    );
+
     return response.data;
   },
 };
