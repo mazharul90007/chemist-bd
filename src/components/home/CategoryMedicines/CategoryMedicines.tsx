@@ -4,7 +4,7 @@ import MedicineSection from "./MedicineSection";
 const CategoryMedicines = () => {
   return (
     <section className=" py-6 md:py-8 lg:py-12 bg-zinc-100 dark:bg-zinc-950">
-      <div className="container mx-auto px-4 space-y-20">
+      <div className="container mx-auto px-4 space-y-8">
         {/* =========Prescription medicine============ */}
         <div>
           <CategoryMedicineTitle first="Prescription" second="Medicines" />

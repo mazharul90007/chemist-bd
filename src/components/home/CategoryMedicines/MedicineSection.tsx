@@ -3,6 +3,8 @@
 import { useAllMedicines, useCategories } from "@/hooks/useMedicine";
 import { Loader2 } from "lucide-react";
 import MedicineCard from "../MedicineCard";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import LinkableButton from "@/app/shared/LinkableButton";
 
 const MedicineSection = ({ categoryName }: { categoryName: string }) => {
@@ -50,6 +52,7 @@ const MedicineSection = ({ categoryName }: { categoryName: string }) => {
           />
         ))}
       </div>
+
       {/* View All Button */}
       <div className="flex justify-end mt-6">
         <LinkableButton

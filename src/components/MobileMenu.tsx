@@ -41,7 +41,7 @@ const MobileMenu = ({
       {/* Menu Content */}
       <div
         className={cn(
-          "fixed top-0 right-0 bottom-0 w-300px bg-white dark:bg-zinc-950 z-70 p-6 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden",
+          "fixed top-0 right-0 bottom-0 w-[300px] bg-white dark:bg-zinc-950 z-70 p-6 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden",
           isOpen ? "translate-x-0" : "translate-x-full",
         )}
       >

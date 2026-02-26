@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900 pt-20 pb-10">
+    <footer className="bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900 pt-20">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 lg:col-span-1">
@@ -122,9 +122,10 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-        <div className="pt-10 border-t border-zinc-100 dark:border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+      </div>
+      <div className="py-4 border-t bg-zinc-200 border-zinc-100 dark:border-zinc-900 ">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-zinc-600 dark:text-zinc-500 text-sm">
             © 2026{" "}
             <span className="font-bold text-zinc-900 dark:text-zinc-50">
               ChemistBD

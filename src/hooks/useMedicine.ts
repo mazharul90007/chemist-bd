@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { medicineApi, ApiResponse } from "@/lib/api-client";
 import { IMedicine, IMedicineCreate } from "@/types/medicine.type";
