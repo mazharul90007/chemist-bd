@@ -3,8 +3,6 @@
 import { useAllMedicines, useCategories } from "@/hooks/useMedicine";
 import { Loader2 } from "lucide-react";
 import MedicineCard from "../MedicineCard";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import LinkableButton from "@/app/shared/LinkableButton";
 
 const MedicineSection = ({ categoryName }: { categoryName: string }) => {
