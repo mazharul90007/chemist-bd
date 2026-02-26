@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { ShoppingBag, User, Menu, Stethoscope, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,6 +8,7 @@ import MobileMenu from "./MobileMenu";
 import { authClient } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import { useMyCart } from "@/hooks/useCart";
+import Link from "next/link";
 
 const Navbar = () => {
   const router = useRouter();

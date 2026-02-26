@@ -86,7 +86,9 @@ export const useUpdateMedicine = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: AxiosError<ApiResponse<any>>) => {
-      toast.error(error?.response?.data?.message || "Failed to update medicine");
+      toast.error(
+        error?.response?.data?.message || "Failed to update medicine",
+      );
     },
   });
 };
@@ -103,7 +105,9 @@ export const useDeleteMedicine = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: AxiosError<ApiResponse<any>>) => {
-      toast.error(error?.response?.data?.message || "Failed to delete medicine");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete medicine",
+      );
     },
   });
 };

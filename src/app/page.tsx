@@ -3,6 +3,7 @@ import CategorySection from "@/components/home/CategorySection";
 import FeaturedMedicines from "@/components/home/FeaturedMedicines";
 import HealthTips from "@/components/home/HealthTips";
 import Footer from "@/components/Footer";
+import CategoryMedicines from "@/components/home/CategoryMedicines/CategoryMedicines";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <HeroSection />
       <CategorySection />
       <FeaturedMedicines />
+      <CategoryMedicines />
       <HealthTips />
       <Footer />
     </div>

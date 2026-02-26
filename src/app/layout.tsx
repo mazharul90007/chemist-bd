@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "ChemistBD - a trusted online medicine shop",
 };
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/DynamicNavbar";
 import Providers from "@/components/Providers";
 
 export default function RootLayout({

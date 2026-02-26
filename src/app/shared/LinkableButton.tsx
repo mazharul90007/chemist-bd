@@ -8,7 +8,7 @@ const LinkableButton = ({ title, link }: { title: string; link: string }) => {
       <Link href={`/${link}`}>
         <Button
           variant="outline"
-          className="hidden md:flex border hover:border-emerald-500 items-center gap-2 rounded-xl group font-semibold cursor-pointer"
+          className="hidden md:flex hover:bg-emerald-500 hover:text-white border hover:border-emerald-500 items-center gap-2 rounded-xl group font-semibold cursor-pointer"
         >
           {title}
           <ArrowRight

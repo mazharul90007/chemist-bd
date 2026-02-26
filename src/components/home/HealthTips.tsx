@@ -44,7 +44,7 @@ const HealthTips = () => {
 
   if (isLoading) {
     return (
-      <section className="py-20 bg-zinc-50 dark:bg-zinc-900/40">
+      <section className="py-20 bg-white dark:bg-zinc-900/40">
         <div className="container mx-auto px-4 text-center">
           <div className="animate-pulse flex flex-col items-center">
             <div className="h-10 w-64 bg-zinc-200 dark:bg-zinc-800 rounded-lg mb-4" />
