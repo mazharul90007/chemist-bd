@@ -2,6 +2,7 @@
 
 import { useAllMedicines, useCategories } from "@/hooks/useMedicine";
 import { Loader2 } from "lucide-react";
+import { IMedicine, IMedicineCategory } from "@/types/medicine.type";
 import MedicineCard from "../MedicineCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ const MedicineSection = ({ categoryName }: { categoryName: string }) => {
     useCategories();
 
   const category = categoriesData?.data?.find(
-    (cat) => cat.categoryName.toLowerCase() === categoryName.toLowerCase(),
+    (cat: IMedicineCategory) => cat.categoryName.toLowerCase() === categoryName.toLowerCase(),
   );
 
   //Fetch Medicines for specific category
@@ -38,7 +39,7 @@ const MedicineSection = ({ categoryName }: { categoryName: string }) => {
     <div className="space-y-8">
       {/* Grid of 4 Medicines */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {medicines.map((medicine) => (
+        {medicines.map((medicine: IMedicine) => (
           <MedicineCard
             key={medicine.id}
             id={medicine.id}

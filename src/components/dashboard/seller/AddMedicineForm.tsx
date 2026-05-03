@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAddMedicine, useCategories } from "@/hooks/useMedicine";
-import { IMedicineCreate } from "@/types/medicine.type";
+import { IMedicineCreate, IMedicineCategory } from "@/types/medicine.type";
 import { cn } from "@/lib/utils";
 
 const AddMedicineForm = () => {
@@ -161,7 +161,7 @@ const AddMedicineForm = () => {
                 onChange={handleChange}
               >
                 <option value="">Select Category</option>
-                {categories.map((cat) => (
+                {categories.map((cat: IMedicineCategory) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.categoryName}
                   </option>

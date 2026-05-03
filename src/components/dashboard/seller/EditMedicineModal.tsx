@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCategories, useUpdateMedicine } from "@/hooks/useMedicine";
-import { IMedicine, IMedicineCreate } from "@/types/medicine.type";
+import { IMedicine, IMedicineCreate, IMedicineCategory } from "@/types/medicine.type";
 import { cn } from "@/lib/utils";
 
 interface EditMedicineModalProps {
@@ -154,7 +154,7 @@ const EditMedicineModal = ({ medicine, isOpen, onClose }: EditMedicineModalProps
                                     value={formData.categoryId ?? ""}
                                     onChange={handleChange}
                                 >
-                                    {categories.map((cat) => (
+                                    {categories.map((cat: IMedicineCategory) => (
                                         <option key={cat.id} value={cat.id}>
                                             {cat.categoryName}
                                         </option>

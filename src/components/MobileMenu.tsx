@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { X, ShoppingBag, User, Stethoscope, LogOut } from "lucide-react";
+import { X, ShoppingBag, User, Stethoscope, LogOut, ChevronRight, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,10 +27,10 @@ const MobileMenu = ({
 }: MobileMenuProps) => {
   return (
     <>
-      {/* Backdrop */}
+      {/* Premium Backdrop with Blur */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 z-60 transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 bg-zinc-950/40 backdrop-blur-sm z-[60] transition-all duration-500 lg:hidden",
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",
@@ -38,46 +38,40 @@ const MobileMenu = ({
         onClick={onClose}
       />
 
-      {/* Menu Content */}
+      {/* Modern Menu Drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 bottom-0 w-[300px] bg-white dark:bg-zinc-950 z-70 p-6 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden",
-          isOpen ? "translate-x-0" : "translate-x-full",
+          "fixed top-4 right-4 bottom-4 w-[calc(100%-2rem)] max-w-[380px] bg-emerald-100 dark:bg-zinc-950 z-[70] p-8 shadow-2xl rounded-[2.5rem] border border-emerald-200 dark:border-zinc-800 transition-all duration-500 ease-in-out lg:hidden overflow-y-auto",
+          isOpen ? "translate-x-0 rotate-0" : "translate-x-[110%] rotate-6",
         )}
       >
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <div className="bg-emerald-600 p-1.5 rounded-lg text-white">
-              <Stethoscope size={20} />
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-3">
+            <div className="bg-emerald-600 p-2 rounded-xl text-white shadow-lg">
+              <Stethoscope size={22} />
             </div>
-            <span className="font-bold text-zinc-900 dark:text-zinc-50">
-              ChemistBD
-            </span>
+            <div className="flex flex-col">
+              <span className="font-black text-xl text-zinc-900 dark:text-zinc-50 tracking-tighter leading-none">
+                Chemist<span className="text-emerald-600">BD</span>
+              </span>
+              <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest mt-1">
+                Care First
+              </span>
+            </div>
           </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900"
+            className="w-11 h-11 rounded-2xl bg-white dark:bg-zinc-900 border border-emerald-200 dark:border-zinc-800 hover:text-red-500 transition-all"
           >
             <X size={24} />
           </Button>
         </div>
 
-        {/* Mobile Search */}
-        {/* <div className="mb-8 relative">
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-            <Search size={18} />
-          </div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full bg-zinc-100 dark:bg-zinc-900 border-none rounded-xl py-2.5 pl-10 pr-4 text-sm outline-none"
-          />
-        </div> */}
-
-        {/* Links */}
-        <div className="flex flex-col gap-1 mb-8">
+        {/* Links Navigation */}
+        <div className="flex flex-col gap-2 mb-12">
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4 ml-4">Main Menu</p>
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -86,64 +80,81 @@ const MobileMenu = ({
                 href={link.href}
                 onClick={onClose}
                 className={cn(
-                  "flex items-center p-3 rounded-xl font-medium transition-all",
+                  "flex items-center justify-between p-5 rounded-[1.5rem] transition-all group",
                   isActive
-                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400"
-                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900",
+                    ? "bg-emerald-600 text-white shadow-xl shadow-emerald-600/20 translate-x-1"
+                    : "bg-white/80 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:shadow-md hover:translate-x-1",
                 )}
               >
-                {link.name}
+                <span className="font-black text-base uppercase tracking-tight">{link.name}</span>
+                <ChevronRight 
+                   size={18} 
+                   className={cn(
+                     "transition-all duration-300",
+                     isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0"
+                   )} 
+                />
               </Link>
             );
           })}
         </div>
 
-        <div className="border-t border-zinc-100 dark:border-zinc-900 pt-6 flex flex-col gap-4">
-          <div className="flex items-center justify-around">
-            {session?.user?.role === "CUSTOMER" && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full text-zinc-600 dark:text-zinc-400 relative"
-              >
-                <ShoppingBag size={24} />
-                <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white dark:border-zinc-950">
-                  {cartItemsCount ? cartItemsCount : 0}
-                </span>
-              </Button>
-            )}
-          </div>
-          {/* Dynamic auth section for mobile */}
-          {session ? (
-            <div className="space-y-3">
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
-                <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50">
-                  {session.user.name}
-                </p>
-                <p className="text-xs text-zinc-500 truncate">
-                  {session.user.email}
-                </p>
-              </div>
-              <Button
-                onClick={() => {
-                  onLogout();
-                  onClose();
-                }}
-                variant="outline"
-                className="w-full border-red-100 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl py-6 font-semibold flex items-center justify-center gap-2"
-              >
-                <LogOut size={18} />
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <Link href="/login" onClick={onClose}>
-              <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl py-6 font-semibold shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
-                <User size={18} />
-                Login / Signup
-              </Button>
-            </Link>
-          )}
+        {/* Bottom Actions */}
+        <div className="pt-8 border-t border-emerald-200 dark:border-zinc-900 space-y-6">
+           {session && (
+             <div className="flex items-center gap-4 p-5 bg-white/80 dark:bg-zinc-900/50 rounded-[2rem] border border-emerald-200 dark:border-zinc-800">
+                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center text-emerald-600">
+                  <User size={24} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-black text-zinc-900 dark:text-zinc-50 truncate">
+                    {session.user.name}
+                  </p>
+                  <p className="text-[10px] font-bold text-zinc-500 truncate uppercase tracking-tighter">
+                    {session.user.email}
+                  </p>
+                </div>
+             </div>
+           )}
+
+           <div className="grid grid-cols-2 gap-4">
+              {session?.user?.role === "CUSTOMER" && (
+                <Link href="/cart" onClick={onClose} className="col-span-2">
+                  <Button
+                    variant="outline"
+                    className="w-full h-16 rounded-[1.5rem] border-emerald-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900 font-black text-zinc-900 dark:text-zinc-50 gap-3 text-base group cursor-pointer"
+                  >
+                    <ShoppingBag size={20} className="group-hover:scale-110 transition-transform" />
+                    Cart ({cartItemsCount})
+                  </Button>
+                </Link>
+              )}
+
+              {session ? (
+                <Button
+                  onClick={() => {
+                    onLogout();
+                    onClose();
+                  }}
+                  className="col-span-2 h-16 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 rounded-[1.5rem] font-black text-base flex items-center justify-center gap-3 transition-all border border-red-100 dark:border-red-900/30 cursor-pointer"
+                >
+                  <LogOut size={20} />
+                  Sign Out
+                </Button>
+              ) : (
+                <Link href="/login" onClick={onClose} className="col-span-2">
+                  <Button className="w-full h-16 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[1.5rem] font-black text-base shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-3 cursor-pointer">
+                    <User size={20} />
+                    Sign In Now
+                  </Button>
+                </Link>
+              )}
+           </div>
+
+           <div className="flex items-center justify-center gap-2 pt-4">
+              <Activity size={14} className="text-emerald-600 animate-pulse" />
+              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Always at your service</span>
+           </div>
         </div>
       </div>
     </>

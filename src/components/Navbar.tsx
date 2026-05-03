@@ -21,9 +21,6 @@ const Navbar = () => {
 
   const cartItemsCount = cartData?.data?.cartItems?.length || 0;
 
-  // console.log(session);
-
-  //Logout
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -37,7 +34,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -54,207 +51,128 @@ const Navbar = () => {
   }
 
   return (
-    <nav
-      className={cn(
-        "fixed top-0 left-0 right-0 z-100 transition-all duration-300 ease-in-out border-b py-4 sm:py-3",
-        // 1. Mobile & Scrolled Desktop: White background
-        "bg-white shadow-md border-zinc-200",
-        // 2. Desktop Top State: Emerald background
-        !isScrolled && !isMobileMenuOpen &&
-        "lg:bg-emerald-600 lg:border-emerald-500/20 lg:shadow-md lg:dark:bg-zinc-950",
-        // 3. Desktop Scrolled State: Blur effect
-        (isScrolled || isMobileMenuOpen) &&
-        "lg:bg-white/90 lg:backdrop-blur-md lg:shadow-lg lg:dark:bg-zinc-950/90",
-      )}
-    >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between gap-4 md:gap-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div
-              className={cn(
-                "p-2 rounded-xl text-white transition-colors shadow-lg",
-                (isScrolled || isMobileMenuOpen)
-                  ? "bg-emerald-600"
-                  : "bg-emerald-600 lg:bg-white lg:text-emerald-600",
-              )}
-            >
-              <Stethoscope size={24} />
+    <div className="absolute top-0 left-0 right-0 z-50 flex justify-center px-4 py-4 sm:py-6 transition-all duration-500">
+      <nav
+        className={cn(
+          "w-full max-w-7xl transition-all duration-500 ease-in-out px-4 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between",
+          "rounded-2xl border shadow-[0_8px_30px_rgb(0,0,0,0.06)]",
+
+          isScrolled
+            ? "bg-emerald-100/90 dark:bg-zinc-950/80 backdrop-blur-2xl border-emerald-200/50 dark:border-zinc-800/50 scale-[0.98] sm:scale-100"
+            : "bg-emerald-100 dark:bg-zinc-900 border-emerald-200 dark:border-zinc-800",
+        )}
+      >
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <div className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full group-hover:bg-emerald-500/30 transition-all duration-500" />
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+              <Stethoscope size={22} strokeWidth={2.5} />
             </div>
-            <span
-              className={cn(
-                "text-xl font-bold tracking-tight transition-colors",
-                (isScrolled || isMobileMenuOpen)
-                  ? "text-zinc-900 dark:text-zinc-50"
-                  : "text-zinc-900 lg:text-white dark:text-zinc-50",
-              )}
-            >
-              Chemist
-              <span
-                className={
-                  (isScrolled || isMobileMenuOpen)
-                    ? "text-emerald-600"
-                    : "text-emerald-600 lg:text-white/80"
-                }
-              >
-                BD
-              </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-lg sm:text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tighter leading-none">
+              Chemist<span className="text-emerald-600">BD</span>
             </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => {
-              // 3. Check if current path matches link href
-              const isActive = pathname === link.href;
-
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors relative py-1",
-                    isActive
-                      ? (isScrolled || isMobileMenuOpen)
-                        ? "text-emerald-600"
-                        : "text-emerald-600 lg:text-white"
-                      : (isScrolled || isMobileMenuOpen)
-                        ? "text-zinc-600 hover:text-emerald-600"
-                        : "text-zinc-600 lg:text-white/80 lg:hover:text-white",
-                  )}
-                >
-                  {link.name}
-                  {/* Underline indicator for active link */}
-                  {isActive && (
-                    <span
-                      className={cn(
-                        "absolute bottom-0 left-0 w-full h-0.5 rounded-full animate-in fade-in zoom-in duration-300",
-                        (isScrolled || isMobileMenuOpen)
-                          ? "bg-emerald-600"
-                          : "bg-emerald-600 lg:bg-white",
-                      )}
-                    />
-                  )}
-                </Link>
-              );
-            })}
+            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] leading-none mt-1">
+              Care First
+            </span>
           </div>
+        </Link>
 
-          {/* Search Bar */}
-          {/* <div className="hidden md:flex flex-1 max-w-md relative group">
-            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-              <Search size={18} />
-            </div>
-            <input
-              type="text"
-              placeholder="Search medicines, health products..."
-              className="w-full bg-zinc-100 dark:bg-zinc-900 border-none rounded-2xl py-2.5 pl-10 pr-12 text-sm focus:ring-2 focus:ring-emerald-500/50 transition-all outline-none"
-            />
-            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-              <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-1.5 font-mono text-[10px] font-medium text-zinc-400 opacity-100">
-                <Command size={10} /> K
-              </kbd>
-            </div>
-          </div> */}
-
-          {/* Action Icons */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="hidden sm:flex items-center gap-2">
-              {session?.user?.role === "CUSTOMER" && (
-                <Link href="/cart">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={`rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900  ${(isScrolled || isMobileMenuOpen) ? "text-zinc-600" : "text-zinc-600 lg:text-white"} dark:text-zinc-400 relative cursor-pointer`}
-                  >
-                    <ShoppingBag size={32} />
-                    <span
-                      className={cn(
-                        "absolute top-1 right-1 w-4 h-4 text-[10px] font-bold flex items-center justify-center rounded-full border-2",
-                        isScrolled
-                          ? "bg-emerald-600 text-white border-white"
-                          : "bg-white text-emerald-600 border-emerald-600",
-                      )}
-                    >
-                      {cartItemsCount}
-                    </span>
-                  </Button>
-                </Link>
-              )}
-            </div>
-
-            <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block mx-1" />
-
-            {/* AUTH SECTION */}
-            {isPending ? (
-              // Loading state while checking session
-              <div className="h-10 w-24 bg-zinc-100 animate-pulse rounded-xl" />
-            ) : session ? (
-              // SHOW THIS IF LOGGED IN
-              <div className="flex items-center gap-3">
-                <div className="hidden md:flex flex-col items-end mr-1">
-                  <span
-                    className={`text-xs font-bold  ${(isScrolled || isMobileMenuOpen) ? "text-zinc-900" : "text-zinc-900 lg:text-white"} dark:text-zinc-50`}
-                  >
-                    {session.user.name}
-                  </span>
-                  <span
-                    className={`text-[10px] ${(isScrolled || isMobileMenuOpen) ? "text-zinc-500" : "text-zinc-500 lg:text-white"} font-black tracking-tighter`}
-                  >
-                    {session.user.email}
-                  </span>
-                </div>
-
-                {/* Logout Button (Or you could use a DropdownMenu here) */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleLogout}
-                  className="rounded-xl hover:bg-red-50 dark:hover:bg-red-900/10 text-zinc-500 hover:text-red-600 transition-colors cursor-pointer"
-                >
-                  <LogOut
-                    size={20}
-                    className={(isScrolled || isMobileMenuOpen) ? "text-zinc-500" : "text-zinc-500 lg:text-white"}
-                  />
-                </Button>
-              </div>
-            ) : (
-              // SHOW THIS IF NOT LOGGED IN
-              <Link href="/login">
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "hidden sm:flex items-center gap-2 rounded-xl transition-all font-medium cursor-pointer",
-                    (isScrolled || isMobileMenuOpen)
-                      ? "border-zinc-200 text-zinc-600 hover:bg-emerald-50 hover:text-emerald-600"
-                      : "border-zinc-200 text-zinc-600 lg:border-white/40 lg:text-white hover:bg-white hover:text-emerald-600",
-                  )}
-                >
-                  <User size={18} />
-                  <span>Login</span>
-                </Button>
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center bg-white/40 dark:bg-zinc-800/50 p-1.5 rounded-3xl border border-emerald-200/30 dark:border-zinc-700/50">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  "px-6 py-2 rounded-2xl text-[13px] font-black transition-all duration-300 relative group",
+                  isActive
+                    ? "bg-white dark:bg-zinc-700 text-emerald-600 dark:text-white shadow-sm"
+                    : "text-zinc-600 dark:text-zinc-300 hover:text-emerald-600",
+                )}
+              >
+                {link.name}
+                {!isActive && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-emerald-500 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                )}
               </Link>
-            )}
-
-            {/* Mobile Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "lg:hidden rounded-xl cursor-pointer",
-                (isScrolled || isMobileMenuOpen)
-                  ? "text-zinc-600 hover:bg-zinc-100"
-                  : "text-zinc-600 lg:text-white hover:bg-zinc-100 lg:hover:bg-emerald-500/20",
-              )}
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Menu size={24} />
-            </Button>
-          </div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* Mobile Menu Overlay */}
+        {/* Right Actions */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {session?.user?.role === "CUSTOMER" && (
+            <Link href="/cart" className="relative group">
+              <div className="absolute -inset-2 bg-emerald-500/0 group-hover:bg-emerald-500/5 rounded-full transition-all duration-300" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl text-zinc-700 dark:text-zinc-400 hover:text-emerald-600 transition-colors relative cursor-pointer"
+              >
+                <ShoppingBag size={22} />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-600 text-white text-[10px] font-black flex items-center justify-center rounded-lg border-2 border-white dark:border-zinc-900 shadow-lg animate-in zoom-in duration-300">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+          )}
+
+          <div className="hidden sm:block h-8 w-px bg-emerald-200/60 dark:bg-zinc-800/60 mx-1" />
+
+          {isPending ? (
+            <div className="h-11 w-28 bg-emerald-200/50 dark:bg-zinc-800 animate-pulse rounded-2xl" />
+          ) : session ? (
+            <div className="flex items-center gap-3 pl-2">
+              <div className="hidden md:flex flex-col items-end">
+                <span className="text-[11px] font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tighter">
+                  {session.user.name}
+                </span>
+                <span className="text-[9px] font-bold text-emerald-600/80 uppercase">
+                  {session.user.role}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLogout}
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white dark:bg-zinc-800 text-zinc-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer"
+              >
+                <LogOut size={18} />
+              </Button>
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button
+                className={cn(
+                  "h-11 sm:h-12 px-8 sm:px-7 rounded-2xl font-black text-[13px] uppercase tracking-wider transition-all duration-300 group cursor-pointer",
+                  "bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_10px_30px_-10px_rgba(16,185,129,0.4)]",
+                )}
+              >
+                <User size={16} className="mr-.5 group-hover:scale-110 transition-transform" />
+                Sign In
+              </Button>
+            </Link>
+          )}
+
+          {/* Mobile Menu Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-2xl text-zinc-700 dark:text-zinc-400 hover:bg-white dark:hover:bg-zinc-800 transition-all cursor-pointer"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu size={24} />
+          </Button>
+        </div>
+      </nav>
+
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
@@ -264,7 +182,7 @@ const Navbar = () => {
         pathname={pathname}
         cartItemsCount={cartItemsCount}
       />
-    </nav>
+    </div>
   );
 };
 

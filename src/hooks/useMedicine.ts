@@ -2,7 +2,11 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { medicineApi, ApiResponse } from "@/lib/api-client";
-import { IMedicine, IMedicineCreate } from "@/types/medicine.type";
+import {
+  IMedicine,
+  IMedicineCreate,
+  IMedicineCategory,
+} from "@/types/medicine.type";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
@@ -15,21 +19,23 @@ export const usePopularMedicines = () => {
   });
 };
 
-//============Get All Medicines=================
 export const useAllMedicines = (
   query: Record<string, string | number | boolean | undefined | null> = {},
+  initialData?: ApiResponse<IMedicine[]>,
 ) => {
   return useQuery({
     queryKey: ["medicines", query],
     queryFn: () => medicineApi.getAllMedicines(query),
+    initialData,
   });
 };
 
 //============Get Categories=================
-export const useCategories = () => {
+export const useCategories = (initialData?: ApiResponse<IMedicineCategory[]>) => {
   return useQuery({
     queryKey: ["categories"],
     queryFn: () => medicineApi.getCategories(),
+    initialData,
   });
 };
 

@@ -15,6 +15,7 @@ interface MedicineFiltersProps {
   popularOnly: boolean;
   onPopularChange: (popular: boolean) => void;
   onClear: () => void;
+  initialCategories?: any;
 }
 
 const MedicineFilters = ({
@@ -26,8 +27,9 @@ const MedicineFilters = ({
   popularOnly,
   onPopularChange,
   onClear,
+  initialCategories,
 }: MedicineFiltersProps) => {
-  const { data: categoriesData, isLoading } = useCategories();
+  const { data: categoriesData, isLoading } = useCategories(initialCategories);
   const categories = categoriesData?.data || [];
 
   return (
