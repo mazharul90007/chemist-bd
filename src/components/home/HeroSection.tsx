@@ -1,104 +1,135 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const HeroSection = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: "Fresh Vitamin",
+      subtitle: "Supplement for life",
+      price: "1500 Tk",
+      oldPrice: "1750 Tk",
+      productImage: "/assets/images/hero1/multi_vitamin.png",
+      bg: "bg-[#f5eadc]",
+      items: [
+        { src: "/assets/images/hero1/tomato.png", pos: "top-10 left-10", size: 120 },
+        { src: "/assets/images/hero1/lemon.png", pos: "bottom-10 right-20", size: 100 },
+        { src: "/assets/images/hero1/cabbage.png", pos: "top-20 right-10", size: 150 },
+      ]
+    },
+    // Adding a second slide for demo purposes (reusing same assets for now)
+    {
+      title: "Health Booster",
+      subtitle: "Daily Vitality",
+      price: "$15.00",
+      oldPrice: "$35.00",
+      productImage: "/assets/images/hero1/multi_vitamin.png",
+      bg: "bg-[#f0f4f8]",
+      items: [
+        { src: "/assets/images/hero1/lemon.png", pos: "top-20 left-20", size: 110 },
+        { src: "/assets/images/hero1/tomato.png", pos: "bottom-20 left-10", size: 130 },
+      ]
+    }
+  ];
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const slide = slides[currentSlide];
+
   return (
-    <section className="relative overflow-hidden py-8 lg:pt-12 bg-white dark:bg-zinc-950">
-      {/* Background patterns */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-150 h-150 bg-emerald-100/50 dark:bg-emerald-900/10 rounded-full blur-3xl opacity-50" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-100 h-100 bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-3xl opacity-50" />
+    <section className={cn("relative h-[500px] lg:h-[650px] overflow-hidden transition-colors duration-700", slide.bg)}>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              Trusted by 10,000+ Customers
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-zinc-900 dark:text-zinc-50 leading-tight mb-6">
-              Your Health,{" "}
-              <span className="text-emerald-600">Our Priority.</span> Delivered
-              Fast.
-            </h1>
-            <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Order medicines, health supplements, and healthcare products from
-              the comfort of your home. Genuine products from licensed
-              pharmacies.
-            </p>
+      {/* Decorative Items */}
+      {slide.items.map((item, idx) => (
+        <div key={idx} className={cn("absolute z-0 pointer-events-none transition-all duration-1000", item.pos)}>
+          <Image
+            src={item.src}
+            alt="decorative"
+            width={item.size}
+            height={item.size}
+            className="opacity-80 animate-pulse"
+          />
+        </div>
+      ))}
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
-              <Link href={"/medicines"}>
-                <Button
-                  size="lg"
-                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl px-8 h-14 text-base font-semibold shadow-lg shadow-emerald-500/20 transition-all group cursor-pointer"
-                >
-                  Shop Medicines
-                  <ArrowRight
-                    className="ml-2 group-hover:translate-x-1 transition-transform"
-                    size={18}
-                  />
-                </Button>
-              </Link>
-              <Link href={"/blog"}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full sm:w-auto rounded-2xl px-8 h-14 text-base border-zinc-200 dark:border-zinc-800 font-semibold transition-all cursor-pointer"
-                >
-                  Get Health Advice
-                </Button>
-              </Link>
-            </div>
+      <div className="container mx-auto px-4 h-full relative z-10">
+        <div className="flex flex-col lg:flex-row items-center h-full py-20">
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-zinc-100 dark:border-zinc-900">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-100 dark:bg-zinc-900 text-emerald-600">
-                  <ShieldCheck size={20} />
-                </div>
-                <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  100% Genuine
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-orange-100 dark:bg-zinc-900 text-emerald-600">
-                  <Clock size={20} />
-                </div>
-                <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  Fast Delivery
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-amber-100 dark:bg-zinc-900 text-emerald-600">
-                  <Zap size={20} />
-                </div>
-                <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  Flash Discounts
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex-1 relative w-full max-w-lg lg:max-w-none">
-            <div className="relative z-10 w-full aspect-square md:aspect-4/3 rounded-3xl overflow-hidden shadow-2xl">
+          {/* Left: Product Image */}
+          <div className="relative flex-1 flex justify-center items-center animate-in fade-in slide-in-from-left-10 duration-1000">
+            <div className="relative">
               <Image
-                src={"/assets/images/heroImg.jpg"}
-                alt="Healthcare Products"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                src={slide.productImage}
+                alt="Multivitamin"
+                width={200}
+                height={300}
+                className="object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,0.35)]"
                 priority
               />
+
+              {/* Price Badge */}
+              <div className="absolute top-0 -left-10 w-24 h-24 bg-[#e85a4f] rounded-full flex flex-col items-center justify-center text-white shadow-xl rotate-12">
+                <span className="text-xs line-through opacity-70">{slide.oldPrice}</span>
+                <span className="text-xl font-black">{slide.price}</span>
+              </div>
             </div>
-            {/* Decorative elements */}
-            <div className="absolute -top-6 -right-6 w-32 h-32 bg-emerald-500/20 rounded-full blur-2xl animate-pulse" />
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl animate-pulse" />
+          </div>
+
+          {/* Right: Content */}
+          <div className="flex-1 mt-10 lg:mt-0 animate-in fade-in slide-in-from-right-10 duration-1000">
+            <div className="text-center">
+              <h3 className="italic text-zinc-500 text-xl md:text-2xl mb-4 font-serif">{slide.subtitle}</h3>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-zinc-800 mb-10">
+                {slide.title.split(' ')[0]} <br />
+                <span className="text-zinc-900">{slide.title.split(' ')[1]}</span>
+              </h1>
+              <Link href="/medicines">
+                <Button
+                  className="bg-white hover:bg-zinc-100 text-zinc-900 px-12 h-16 rounded-none font-bold text-sm uppercase tracking-[0.2em] shadow-lg transition-all"
+                >
+                  Shop Now
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-10 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 hover:bg-white/50 flex items-center justify-center text-zinc-800 transition-all cursor-pointer z-20 group"
+      >
+        <ChevronLeft size={32} className="group-hover:-translate-x-1 transition-transform" />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-10 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 hover:bg-white/50 flex items-center justify-center text-zinc-800 transition-all cursor-pointer z-20 group"
+      >
+        <ChevronRight size={32} className="group-hover:translate-x-1 transition-transform" />
+      </button>
+
+      {/* Dots Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3">
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentSlide(idx)}
+            className={cn(
+              "w-2.5 h-2.5 rounded-full transition-all",
+              currentSlide === idx ? "bg-zinc-800 w-8" : "bg-zinc-400"
+            )}
+          />
+        ))}
       </div>
     </section>
   );
