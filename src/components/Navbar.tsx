@@ -8,7 +8,6 @@ import {
   Stethoscope,
   LogOut,
   Search,
-  Heart,
 } from "lucide-react";
 import {
   FaFacebookF,
@@ -81,13 +80,11 @@ const Navbar = () => {
             <Link href="/login" className="hidden sm:block">
               <User size={22} className="hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-400 transition-colors cursor-pointer" />
             </Link>
-            <Search size={22} className="hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-400 transition-colors cursor-pointer hidden sm:block" />
+            <Link href="/medicines" className="hidden sm:block">
+              <Search size={22} className="hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-400 transition-colors cursor-pointer" />
+            </Link>
             <ThemeToggle />
-            <div className="relative cursor-pointer group">
-              <Heart size={22} className="hover:text-emerald-600 transition-colors" />
-              <span className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-            </div>
-            <Link href="/cart" className="relative cursor-pointer group">
+            <Link href={session ? "/cart" : "/login"} className="relative cursor-pointer group">
               <ShoppingBag size={22} className="hover:text-emerald-600 transition-colors" />
               <span className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {cartItemsCount}

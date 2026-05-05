@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -42,10 +42,18 @@ const HeroSection = () => {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentSlide]);
+
   const slide = slides[currentSlide];
 
   return (
-    <section className={cn("relative h-[500px] lg:h-[650px] overflow-hidden transition-colors duration-700", slide.bg)}>
+    <section className={cn("relative h-[500px] lg:h-[600px] overflow-hidden transition-colors duration-700", slide.bg)}>
 
       {/* Decorative Items */}
       {slide.items.map((item, idx) => (
