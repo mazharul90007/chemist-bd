@@ -23,6 +23,7 @@ import { authClient } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import { useMyCart } from "@/hooks/useCart";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const router = useRouter();
@@ -57,8 +58,8 @@ const Navbar = () => {
 
   return (
     <header className="w-full z-50">
-      {/* Top Bar - White Background */}
-      <div className="bg-white border-b border-zinc-100 py-4 px-6 sm:px-12">
+      {/* Top Bar - Dynamic Background */}
+      <div className="bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800 py-4 px-6 sm:px-12 transition-colors duration-300">
         <div className="container mx-auto flex items-center justify-between">
           {/* Social Icons - Using React Icons (Font Awesome 6) */}
           <div className="hidden lg:flex items-center gap-6 text-zinc-400">
@@ -70,7 +71,7 @@ const Navbar = () => {
 
           {/* Logo - Centered */}
           <Link href="/" className="flex items-center gap-2 group lg:absolute lg:left-1/2 lg:-translate-x-1/2">
-            <span className="text-3xl font-black text-zinc-900 tracking-tighter">
+            <span className="text-3xl font-black text-zinc-900 dark:text-white tracking-tighter transition-colors">
               Chemist<span className="text-emerald-600">BD</span>
             </span>
           </Link>
@@ -78,9 +79,10 @@ const Navbar = () => {
           {/* Action Icons */}
           <div className="flex items-center gap-4 sm:gap-6 text-zinc-700">
             <Link href="/login" className="hidden sm:block">
-              <User size={22} className="hover:text-emerald-600 transition-colors cursor-pointer" />
+              <User size={22} className="hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-400 transition-colors cursor-pointer" />
             </Link>
-            <Search size={22} className="hover:text-emerald-600 transition-colors cursor-pointer hidden sm:block" />
+            <Search size={22} className="hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-400 transition-colors cursor-pointer hidden sm:block" />
+            <ThemeToggle />
             <div className="relative cursor-pointer group">
               <Heart size={22} className="hover:text-emerald-600 transition-colors" />
               <span className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
@@ -96,7 +98,7 @@ const Navbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-8 w-8 text-zinc-900"
+              className="lg:hidden h-8 w-8 text-zinc-900 dark:text-zinc-100"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu size={24} />

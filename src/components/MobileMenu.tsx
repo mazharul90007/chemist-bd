@@ -4,6 +4,7 @@ import Link from "next/link";
 import { X, ShoppingBag, User, Stethoscope, LogOut, ChevronRight, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -59,14 +60,17 @@ const MobileMenu = ({
               </span>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="w-11 h-11 rounded-2xl bg-white dark:bg-zinc-900 border border-emerald-200 dark:border-zinc-800 hover:text-red-500 transition-all"
-          >
-            <X size={24} />
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="w-11 h-11 rounded-2xl bg-white dark:bg-zinc-900 border border-emerald-200 dark:border-zinc-800 hover:text-red-500 transition-all"
+            >
+              <X size={24} />
+            </Button>
+          </div>
         </div>
 
         {/* Links Navigation */}
